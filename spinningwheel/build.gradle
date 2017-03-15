@@ -1,0 +1,59 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "24.0.3"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+ext {
+    bintrayRepo = 'teslacode'
+    bintrayName = 'spinningwheel'
+
+    publishedGroupId = 'com.teslacode.plot'
+    libraryName = 'SpinningWheel'
+    artifact = 'spinningwheel'
+
+    libraryDescription = 'Spinning Wheel View for Android'
+
+    siteUrl = 'https://github.com/teslacode/SpinningWheelAndroid'
+    gitUrl = 'https://github.com/teslacode/SpinningWheelAndroid.git'
+
+    libraryVersion = '0.1.0'
+
+    developerId = 'adef145'
+    developerName = 'Ade Fruandta'
+    developerEmail = 'ade.fruandta@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    testCompile 'junit:junit:4.12'
+}
+
+// Place it at the end of the file
+apply from: 'https://raw.githubusercontent.com/teslacode/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/teslacode/JCenter/master/bintrayv1.gradle'

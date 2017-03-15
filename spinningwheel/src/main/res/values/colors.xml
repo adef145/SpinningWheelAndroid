@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="rainbowDashRed">#EE4035</color>
+    <color name="rainbowDashPeach">#F37736</color>
+    <color name="rainbowDashYellow">#FDF498</color>
+    <color name="rainbowDashGreen">#7BC043</color>
+    <color name="rainbowDashBlue">#0392CF</color>
+
+    <string-array name="rainbow_dash">
+        <item>@color/rainbowDashRed</item>
+        <item>@color/rainbowDashPeach</item>
+        <item>@color/rainbowDashYellow</item>
+        <item>@color/rainbowDashGreen</item>
+        <item>@color/rainbowDashBlue</item>
+    </string-array>
+</resources>

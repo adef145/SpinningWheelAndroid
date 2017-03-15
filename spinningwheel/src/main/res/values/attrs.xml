@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Wheel">
+        <attr name="wheel_colors" format="reference"/>
+        <attr name="wheel_stroke_color" format="color"/>
+        <attr name="wheel_stroke_width" format="dimension"/>
+        <attr name="wheel_items" format="reference"/>
+        <attr name="wheel_text_size" format="dimension"/>
+        <attr name="wheel_text_color" format="color"/>
+        <attr name="wheel_arrow_color" format="color"/>
+    </declare-styleable>
+</resources>

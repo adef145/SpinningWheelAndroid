@@ -25,7 +25,7 @@ ext {
     bintrayRepo = 'teslacode'
     bintrayName = 'spinningwheel'
 
-    publishedGroupId = 'com.teslacode.plot'
+    publishedGroupId = 'com.teslacode.spinningwheel'
     libraryName = 'SpinningWheel'
     artifact = 'spinningwheel'
 

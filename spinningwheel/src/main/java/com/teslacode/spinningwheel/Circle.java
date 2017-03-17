@@ -48,7 +48,7 @@ class Circle {
     }
 
     public Point rotate(float angle, float x, float y) {
-        // This is to rotate about the Rectangles center
+        // This is to onRotate about the Rectangles center
         matrix.setRotate(angle, cx, cy);
 
         // Create new float[] to hold the rotated coordinates

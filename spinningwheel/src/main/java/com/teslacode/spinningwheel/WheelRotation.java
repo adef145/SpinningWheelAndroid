@@ -18,7 +18,7 @@ class WheelRotation extends CountDownTimer {
 
     private long thresholdSlow;
 
-    private RenderListener renderListener;
+    private RotationListener rotationListener;
 
     private long duration;
 
@@ -44,23 +44,23 @@ class WheelRotation extends CountDownTimer {
         return this;
     }
 
-    public WheelRotation setListener(RenderListener l) {
-        this.renderListener = l;
+    public WheelRotation setListener(RotationListener l) {
+        this.rotationListener = l;
         return this;
     }
 
     @Override
     public void onTick(long millisUntilFinished) {
-        if (renderListener == null) {
+        if (rotationListener == null) {
             return;
         }
 
         if (millisUntilFinished <= thresholdSlow) {
             angle = maxAngle * ((float) millisUntilFinished / (float) duration);
-            renderListener.rotate(angle);
+            rotationListener.onRotate(angle);
         }
         else if (angle < maxAngle) {
-            renderListener.rotate(angle);
+            rotationListener.onRotate(angle);
 
             angle *= ROTATE_SCALE_FACTOR;
 
@@ -69,23 +69,23 @@ class WheelRotation extends CountDownTimer {
             }
         }
         else {
-            renderListener.rotate(angle);
+            rotationListener.onRotate(angle);
         }
     }
 
     @Override
     public void onFinish() {
-        if (renderListener == null) {
+        if (rotationListener == null) {
             return;
         }
 
-        renderListener.onFinish();
+        rotationListener.onStop();
     }
 
-    public interface RenderListener {
+    public interface RotationListener {
 
-        void rotate(float angle);
+        void onRotate(float angle);
 
-        void onFinish();
+        void onStop();
     }
 }

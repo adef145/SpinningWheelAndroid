@@ -26,7 +26,7 @@ import java.util.List;
  * Created by adefruandta on 3/12/17.
  */
 
-public class SpinningWheelView extends View implements WheelRotation.RenderListener {
+public class SpinningWheelView extends View implements WheelRotation.RotationListener {
 
     // region static attr
 
@@ -181,26 +181,31 @@ public class SpinningWheelView extends View implements WheelRotation.RenderListe
 
     // region rotation listener
 
-    // angle mod 360 prevent to big angle, and overflow float
     @Override
-    public void rotate(float angle) {
-        this.angle += angle;
-        this.angle %= ANGLE;
-        invalidate();
+    public void onRotate(float angle) {
+        rotate(angle);
     }
 
     @Override
-    public void onFinish() {
+    public void onStop() {
         if (rotationListener == null) {
             return;
         }
 
-        rotationListener.onFinish(getItemSelected());
+        rotationListener.onStopRotation(getSelectedItem());
     }
 
     // endregion
 
     // region Functionality
+
+    // angle mod 360 prevent to big angle, and overflow float
+    // rotate without animation
+    public void rotate(float angle) {
+        this.angle += angle;
+        this.angle %= ANGLE;
+        invalidate();
+    }
 
     /**
      * Rotate wheel with animation
@@ -356,19 +361,16 @@ public class SpinningWheelView extends View implements WheelRotation.RenderListe
         this.rotationListener = rotationListener;
     }
 
-    public <T> T getItemSelected() {
+    public <T> T getSelectedItem() {
         if (circle == null || points == null) {
             return null;
         }
 
         int itemSize = getItemSize();
         float cx = circle.getCx();
-        float radius = circle.getRadius();
-        float topY = circle.getCy() - circle.getRadius();
 
         for (int i = 0; i < points.length; i++) {
-            if (points[i].x <= cx && cx <= points[(i + 1) % itemSize].x // validate point x
-                    && topY <= points[i].y && points[i].y <= radius) { // validate point y
+            if (points[i].x <= cx && cx <= points[(i + 1) % itemSize].x) { // validate point x
                 return (T) items.get(i);
             }
         }
@@ -451,14 +453,14 @@ public class SpinningWheelView extends View implements WheelRotation.RenderListe
         float cx = circle.getCx();
         float cy = circle.getCy();
         float radius = circle.getRadius();
-        float endOfLeft = cx - radius;
+        float endOfRight = cx + radius;
         float left = cx - radius + (wheelStrokeRadius * 2);
         float top = cy - radius + (wheelStrokeRadius * 2);
         float right = cx + radius - (wheelStrokeRadius * 2);
         float bottom = cy + radius - (wheelStrokeRadius * 2);
 
         // Rotate Wheel
-        canvas.rotate((float) angle, cx, cy);
+        canvas.rotate(angle, cx, cy);
 
         // Prepare Pie
         RectF rectF = new RectF(left, top, right, bottom);
@@ -467,10 +469,10 @@ public class SpinningWheelView extends View implements WheelRotation.RenderListe
         for (int i = 0; i < getItemSize(); i++) {
             canvas.save();
             canvas.rotate(angle, cx, cy);
-            canvas.drawArc(rectF, 0, (float) getAnglePerItem(), true, getItemPaint(i));
+            canvas.drawArc(rectF, 0, getAnglePerItem(), true, getItemPaint(i));
             canvas.restore();
 
-            points[i] = circle.rotate((float) (angle + this.angle), endOfLeft, cy);
+            points[i] = circle.rotate(angle + this.angle, endOfRight, cy);
 
             angle += getAnglePerItem();
         }
@@ -486,17 +488,14 @@ public class SpinningWheelView extends View implements WheelRotation.RenderListe
         TextPaint textPaint = new TextPaint();
         textPaint.set(getTextPaint());
 
-        float angle = getAnglePerItem();
-        if (getItemSize() % 2 == 0) {
-            angle /= 2;
-        }
+        float angle = getAnglePerItem() / 2;
 
         for (int i = 0; i < getItemSize(); i++) {
+            CharSequence item = TextUtils
+                    .ellipsize(items.get(i).toString(), textPaint, textWidth, TextUtils.TruncateAt.END);
             canvas.save();
-            canvas.rotate(angle, cx, cy);
-            canvas.drawText(
-                    TextUtils.ellipsize(items.get(i).toString(), textPaint, textWidth, TextUtils.TruncateAt.END)
-                            .toString(), x, y, textPaint);
+            canvas.rotate(angle + 180, cx, cy); // +180 for start from right
+            canvas.drawText(item.toString(), x, y, textPaint);
             canvas.restore();
 
             angle += getAnglePerItem();
@@ -510,7 +509,7 @@ public class SpinningWheelView extends View implements WheelRotation.RenderListe
         float radius = circle.getRadius();
 
         // Handle triangle not following the rotation
-        canvas.rotate((float) -angle, cx, cy);
+        canvas.rotate(-angle, cx, cy);
 
         drawTriangle(canvas, getTrianglePaint(), cx, cy - radius, TRIANGLE_WIDTH);
     }
@@ -588,7 +587,7 @@ public class SpinningWheelView extends View implements WheelRotation.RenderListe
 
     public interface OnRotationListener<T> {
 
-        void onFinish(T item);
+        void onStopRotation(T item);
     }
 
     // endregion

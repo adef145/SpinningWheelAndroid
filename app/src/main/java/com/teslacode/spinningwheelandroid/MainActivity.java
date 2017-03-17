@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.teslacode.spinningwheel.SpinningWheelView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SpinningWheelView.OnRotationListener<String> {
 
     private SpinningWheelView wheelView;
 
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         rotate = (Button) findViewById(R.id.rotate);
 
         wheelView.setItems(R.array.dummy);
+        wheelView.setRotationListener(this);
 
         rotate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,8 +31,13 @@ public class MainActivity extends AppCompatActivity {
                 // max angle 50
                 // duration 10 second
                 // every 50 ms rander rotation
-                wheelView.rotate(50, 10000, 50);
+                wheelView.rotate(50, 3000, 50);
             }
         });
+    }
+
+    @Override
+    public void onStopRotation(String item) {
+        Toast.makeText(this, item, Toast.LENGTH_LONG).show();
     }
 }

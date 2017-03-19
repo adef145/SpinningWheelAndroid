@@ -34,7 +34,7 @@ ext {
     siteUrl = 'https://github.com/teslacode/SpinningWheelAndroid'
     gitUrl = 'https://github.com/teslacode/SpinningWheelAndroid.git'
 
-    libraryVersion = '0.1.1'
+    libraryVersion = '0.2.0'
 
     developerId = 'adef145'
     developerName = 'Ade Fruandta'

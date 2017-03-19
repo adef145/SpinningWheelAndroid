@@ -205,6 +205,10 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         this.angle += angle;
         this.angle %= ANGLE;
         invalidate();
+
+        if (angle != 0 && rotationListener != null) {
+            rotationListener.onRotation();
+        }
     }
 
     /**
@@ -586,6 +590,8 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
     // region Listener
 
     public interface OnRotationListener<T> {
+
+        void onRotation();
 
         void onStopRotation(T item);
     }

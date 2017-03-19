@@ -37,6 +37,11 @@ public class MainActivity extends AppCompatActivity implements SpinningWheelView
     }
 
     @Override
+    public void onRotation() {
+        
+    }
+
+    @Override
     public void onStopRotation(String item) {
         Toast.makeText(this, item, Toast.LENGTH_LONG).show();
     }

@@ -80,7 +80,11 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
     @ColorInt
     private int[] colors;
 
-    private OnRotationListener rotationListener;
+    private OnRotationListener onRotationListener;
+
+    private boolean onRotationListenerTicket;
+
+    private boolean onRotation;
 
     // endregion
 
@@ -140,7 +144,7 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (circle == null) {
+        if (circle == null || !isEnabled() || onRotation) {
             return false;
         }
 
@@ -152,6 +156,10 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         }
 
         switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                onRotationListenerTicket = true;
+                break;
+
             case MotionEvent.ACTION_MOVE:
                 float dx = x - previousX;
                 float dy = y - previousY;
@@ -168,6 +176,11 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
 
                 rotate((dx + dy) * TOUCH_SCALE_FACTOR);
 
+                break;
+
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
+                onRotationListenerTicket = false;
                 break;
         }
 
@@ -188,11 +201,11 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
 
     @Override
     public void onStop() {
-        if (rotationListener == null) {
-            return;
-        }
+        onRotation = false;
 
-        rotationListener.onStopRotation(getSelectedItem());
+        if (onRotationListener != null) {
+            onRotationListener.onStopRotation(getSelectedItem());
+        }
     }
 
     // endregion
@@ -206,8 +219,9 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         this.angle %= ANGLE;
         invalidate();
 
-        if (angle != 0 && rotationListener != null) {
-            rotationListener.onRotation();
+        if (onRotationListenerTicket && angle != 0 && onRotationListener != null) {
+            onRotationListener.onRotation();
+            onRotationListenerTicket = false;
         }
     }
 
@@ -222,6 +236,9 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         if (maxAngle == 0) {
             return;
         }
+
+        onRotationListenerTicket = true;
+        onRotation = true;
 
         if (wheelRotation != null) {
             wheelRotation.cancel();
@@ -286,11 +303,6 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         return colors;
     }
 
-    public void setColors(int[] colors) {
-        this.colors = colors;
-        invalidate();
-    }
-
     // Set colors with array res
     // Minimal length 3
     public void setColors(@ArrayRes int colorsResId) {
@@ -330,16 +342,13 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         setColors(colors);
     }
 
-    public List getItems() {
-        return items;
+    public void setColors(int[] colors) {
+        this.colors = colors;
+        invalidate();
     }
 
-    public void setItems(List items) {
-        this.items = items;
-
-        initPoints();
-
-        invalidate();
+    public List getItems() {
+        return items;
     }
 
     public void setItems(@ArrayRes int itemsResId) {
@@ -357,12 +366,20 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         setItems(items);
     }
 
-    public OnRotationListener getRotationListener() {
-        return rotationListener;
+    public void setItems(List items) {
+        this.items = items;
+
+        initPoints();
+
+        invalidate();
     }
 
-    public void setRotationListener(OnRotationListener rotationListener) {
-        this.rotationListener = rotationListener;
+    public OnRotationListener getOnRotationListener() {
+        return onRotationListener;
+    }
+
+    public void setOnRotationListener(OnRotationListener onRotationListener) {
+        this.onRotationListener = onRotationListener;
     }
 
     public <T> T getSelectedItem() {

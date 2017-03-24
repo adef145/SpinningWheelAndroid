@@ -2,6 +2,7 @@ package com.teslacode.spinningwheelandroid;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -20,10 +21,11 @@ public class MainActivity extends AppCompatActivity implements SpinningWheelView
         setContentView(R.layout.activity_main);
 
         wheelView = (SpinningWheelView) findViewById(R.id.wheel);
+
         rotate = (Button) findViewById(R.id.rotate);
 
         wheelView.setItems(R.array.dummy);
-        wheelView.setRotationListener(this);
+        wheelView.setOnRotationListener(this);
 
         rotate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements SpinningWheelView
 
     @Override
     public void onRotation() {
-        
+        Log.d("XXXX", "On Rotation");
     }
 
     @Override

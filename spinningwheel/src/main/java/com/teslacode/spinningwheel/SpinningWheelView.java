@@ -86,6 +86,14 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
 
     private boolean onRotation;
 
+    private Paint textPaint;
+
+    private Paint strokePaint;
+
+    private Paint trianglePaint;
+
+    private Paint itemPaint;
+
     // endregion
 
     // region constructor
@@ -436,6 +444,29 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         } finally {
             typedArray.recycle();
         }
+
+        init();
+    }
+
+    private void init() {
+        textPaint = new Paint();
+        textPaint.setStyle(Paint.Style.FILL);
+        textPaint.setColor(wheelTextColor);
+        textPaint.setTextSize(wheelTextSize);
+
+        strokePaint = new Paint();
+        strokePaint.setStyle(Paint.Style.STROKE);
+        strokePaint.setColor(wheelStrokeColor);
+        strokePaint.setStrokeWidth(wheelStrokeWidth);
+        strokePaint.setStrokeCap(Paint.Cap.ROUND);
+
+        trianglePaint = new Paint();
+        trianglePaint.setColor(wheelArrowColor);
+        trianglePaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        trianglePaint.setAntiAlias(true);
+
+        itemPaint = new Paint();
+        itemPaint.setStyle(Paint.Style.FILL);
     }
 
     private void initWheelStrokeRadius() {
@@ -462,7 +493,7 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
     }
 
     private void drawCircleStroke(Canvas canvas) {
-        canvas.drawCircle(circle.getCx(), circle.getCy(), circle.getRadius() - wheelStrokeRadius, getStrokePaint());
+        canvas.drawCircle(circle.getCx(), circle.getCy(), circle.getRadius() - wheelStrokeRadius, strokePaint);
     }
 
     private void drawWheel(Canvas canvas) {
@@ -507,7 +538,7 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         float y = cy;
         float textWidth = radius - (wheelStrokeRadius * 10);
         TextPaint textPaint = new TextPaint();
-        textPaint.set(getTextPaint());
+        textPaint.set(this.textPaint);
 
         float angle = getAnglePerItem() / 2;
 
@@ -516,7 +547,7 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
                     .ellipsize(items.get(i).toString(), textPaint, textWidth, TextUtils.TruncateAt.END);
             canvas.save();
             canvas.rotate(angle + 180, cx, cy); // +180 for start from right
-            canvas.drawText(item.toString(), x, y, textPaint);
+            canvas.drawText(item.toString(), x, y, this.textPaint);
             canvas.restore();
 
             angle += getAnglePerItem();
@@ -532,7 +563,7 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         // Handle triangle not following the rotation
         canvas.rotate(-angle, cx, cy);
 
-        drawTriangle(canvas, getTrianglePaint(), cx, cy - radius, TRIANGLE_WIDTH);
+        drawTriangle(canvas, trianglePaint, cx, cy - radius, TRIANGLE_WIDTH);
     }
 
     private void drawTriangle(Canvas canvas, Paint paint, float x, float y, float width) {
@@ -548,16 +579,6 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         canvas.drawPath(path, paint);
     }
 
-    private Paint getStrokePaint() {
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(wheelStrokeColor);
-        paint.setStrokeWidth(wheelStrokeWidth);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-
-        return paint;
-    }
-
     private Paint getItemPaint(int position) {
         int i = position % colors.length;
 
@@ -566,28 +587,9 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
             i = colors.length / 2;
         }
 
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(colors[i]);
+        itemPaint.setColor(colors[i]);
 
-        return paint;
-    }
-
-    private Paint getTextPaint() {
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(wheelTextColor);
-        paint.setTextSize(wheelTextSize);
-
-        return paint;
-    }
-
-    private Paint getTrianglePaint() {
-        Paint paint = new Paint();
-        paint.setColor(wheelArrowColor);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setAntiAlias(true);
-        return paint;
+        return itemPaint;
     }
 
     private int getItemSize() {

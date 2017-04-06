@@ -77,4 +77,20 @@ public class MainActivity extends AppCompatActivity implements SpinningWheelView
 
 ```
 
+## Download
+Configure your project-level build.gradle to include the 'android-apt' plugin:
+```gradle
+repositories {
+    maven {
+        url 'https://dl.bintray.com/adef145/teslacode/'
+    }
+}
+
+...
+
+dependencies {
+    compile 'com.teslacode.spinningwheel:spinningwheel:0.3.0'
+}
+```
+
 [1]: ./example/1.gif

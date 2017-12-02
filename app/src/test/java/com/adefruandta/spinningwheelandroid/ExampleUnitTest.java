@@ -1,4 +1,4 @@
-package com.teslacode.spinningwheel;
+package com.adefruandta.spinningwheelandroid;
 
 import org.junit.Test;
 

@@ -16,7 +16,7 @@
 ## Example
 1) Custom view in xml
 ```xml
-<com.teslacode.spinningwheel.SpinningWheelView
+<com.adefruandta.spinningwheel.SpinningWheelView
         android:id="@+id/wheel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -82,14 +82,14 @@ Configure your project-level build.gradle to include the 'android-apt' plugin:
 ```gradle
 repositories {
     maven {
-        url 'https://dl.bintray.com/adef145/teslacode/'
+        url 'https://dl.bintray.com/adef145/maven/'
     }
 }
 
 ...
 
 dependencies {
-    compile 'com.teslacode.spinningwheel:spinningwheel:0.3.0'
+    compile 'com.adefruandta.spinningwheel:spinningwheel:0.3.0'
 }
 ```
 

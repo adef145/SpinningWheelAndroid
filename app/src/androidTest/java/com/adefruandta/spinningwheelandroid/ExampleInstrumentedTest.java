@@ -1,4 +1,4 @@
-package com.teslacode.spinningwheelandroid;
+package com.adefruandta.spinningwheelandroid;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.teslacode.spinningwheelandroid", appContext.getPackageName());
+        assertEquals("com.adefruandta.spinningwheelandroid", appContext.getPackageName());
     }
 }

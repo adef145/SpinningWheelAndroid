@@ -22,17 +22,17 @@ android {
 }
 
 ext {
-    bintrayRepo = 'teslacode'
+    bintrayRepo = 'maven'
     bintrayName = 'spinningwheel'
 
-    publishedGroupId = 'com.teslacode.spinningwheel'
+    publishedGroupId = 'com.adefruandta.spinningwheel'
     libraryName = 'SpinningWheel'
     artifact = 'spinningwheel'
 
     libraryDescription = 'Spinning Wheel View for Android'
 
-    siteUrl = 'https://github.com/teslacode/SpinningWheelAndroid'
-    gitUrl = 'https://github.com/teslacode/SpinningWheelAndroid.git'
+    siteUrl = 'https://github.com/adef145/SpinningWheelAndroid'
+    gitUrl = 'https://github.com/adef145/SpinningWheelAndroid.git'
 
     libraryVersion = '0.2.2'
 
@@ -55,5 +55,5 @@ dependencies {
 }
 
 // Place it at the end of the file
-apply from: 'https://raw.githubusercontent.com/teslacode/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/teslacode/JCenter/master/bintrayv1.gradle'
+apply from: 'https://raw.githubusercontent.com/adef145/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/adef145/JCenter/master/bintrayv1.gradle'

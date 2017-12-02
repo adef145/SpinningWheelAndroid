@@ -1,4 +1,4 @@
-package com.teslacode.spinningwheel;
+package com.adefruandta.spinningwheel;
 
 import android.os.CountDownTimer;
 

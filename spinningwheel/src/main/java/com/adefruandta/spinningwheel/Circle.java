@@ -1,4 +1,4 @@
-package com.teslacode.spinningwheel;
+package com.adefruandta.spinningwheel;
 
 import android.graphics.Matrix;
 import android.graphics.Point;

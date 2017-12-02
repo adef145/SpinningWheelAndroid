@@ -1,4 +1,4 @@
-package com.teslacode.spinningwheelandroid;
+package com.adefruandta.spinningwheelandroid;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.teslacode.spinningwheel.SpinningWheelView;
+import com.adefruandta.spinningwheel.SpinningWheelView;
 
 public class MainActivity extends AppCompatActivity implements SpinningWheelView.OnRotationListener<String> {
 

@@ -34,7 +34,7 @@ ext {
     siteUrl = 'https://github.com/adef145/SpinningWheelAndroid'
     gitUrl = 'https://github.com/adef145/SpinningWheelAndroid.git'
 
-    libraryVersion = '0.2.2'
+    libraryVersion = '0.1.0'
 
     developerId = 'adef145'
     developerName = 'Ade Fruandta'

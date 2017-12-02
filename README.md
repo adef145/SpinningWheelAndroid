@@ -89,7 +89,7 @@ repositories {
 ...
 
 dependencies {
-    compile 'com.adefruandta.spinningwheel:spinningwheel:0.3.0'
+    compile 'com.adefruandta.spinningwheel:spinningwheel:0.1.0'
 }
 ```
 

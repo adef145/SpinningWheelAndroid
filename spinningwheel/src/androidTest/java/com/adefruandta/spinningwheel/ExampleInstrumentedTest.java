@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.teslacode.spinningwheel.test", appContext.getPackageName());
+        assertEquals("com.adefruandta.spinningwheel.test", appContext.getPackageName());
     }
 }

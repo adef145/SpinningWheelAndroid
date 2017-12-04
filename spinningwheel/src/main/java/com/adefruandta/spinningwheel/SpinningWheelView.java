@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -38,13 +39,13 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
 
     private final static float TOUCH_SCALE_FACTOR = (180.0f / 320) / 2;
 
-    private final static float TRIANGLE_WIDTH = 80;
-
     private final static int TEXT_SIZE = 25;
 
     private final static int TEXT_COLOR = Color.BLACK;
 
     private final static int ARROW_COLOR = Color.BLACK;
+
+    private static final int ARROW_SIZE = 50;
 
     // endregion
 
@@ -62,6 +63,10 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
     private float wheelTextSize;
 
     private int wheelArrowColor;
+
+    private float wheelArrowWidth;
+
+    private float wheelArrowHeight;
 
     private WheelRotation wheelRotation;
 
@@ -307,8 +312,23 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         invalidate();
     }
 
+    public void setWheelArrowWidth(float wheelArrowWidth) {
+        this.wheelArrowWidth = wheelArrowWidth;
+        invalidate();
+    }
+
+    public void setWheelArrowHeight(float wheelArrowHeight) {
+        this.wheelArrowHeight = wheelArrowHeight;
+        invalidate();
+    }
+
     public int[] getColors() {
         return colors;
+    }
+
+    public void setColors(int[] colors) {
+        this.colors = colors;
+        invalidate();
     }
 
     // Set colors with array res
@@ -350,13 +370,16 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         setColors(colors);
     }
 
-    public void setColors(int[] colors) {
-        this.colors = colors;
-        invalidate();
-    }
-
     public List getItems() {
         return items;
+    }
+
+    public void setItems(List items) {
+        this.items = items;
+
+        initPoints();
+
+        invalidate();
     }
 
     public void setItems(@ArrayRes int itemsResId) {
@@ -372,14 +395,6 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         }
 
         setItems(items);
-    }
-
-    public void setItems(List items) {
-        this.items = items;
-
-        initPoints();
-
-        invalidate();
     }
 
     public OnRotationListener getOnRotationListener() {
@@ -441,6 +456,12 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
 
             int wheelArrowColor = typedArray.getColor(R.styleable.Wheel_wheel_arrow_color, ARROW_COLOR);
             setWheelArrowColor(wheelArrowColor);
+
+            float wheelArrowWidth = typedArray.getDimension(R.styleable.Wheel_wheel_arrow_width, dpToPx(ARROW_SIZE));
+            setWheelArrowWidth(wheelArrowWidth);
+
+            float wheelArrowHeight = typedArray.getDimension(R.styleable.Wheel_wheel_arrow_height, dpToPx(ARROW_SIZE));
+            setWheelArrowHeight(wheelArrowHeight);
         } finally {
             typedArray.recycle();
         }
@@ -563,17 +584,18 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
         // Handle triangle not following the rotation
         canvas.rotate(-angle, cx, cy);
 
-        drawTriangle(canvas, trianglePaint, cx, cy - radius, TRIANGLE_WIDTH);
+        drawTriangle(canvas, trianglePaint, cx, cy - radius, wheelArrowWidth, wheelArrowHeight);
     }
 
-    private void drawTriangle(Canvas canvas, Paint paint, float x, float y, float width) {
+    private void drawTriangle(Canvas canvas, Paint paint, float x, float y, float width, float height) {
         float halfWidth = width / 2;
+        float halfHeight = height / 2;
 
         Path path = new Path();
-        path.moveTo(x - halfWidth, y - halfWidth); // Top left
-        path.lineTo(x + halfWidth, y - halfWidth); // Top right
-        path.lineTo(x, y + halfWidth); // Bottom Center
-        path.lineTo(x - halfWidth, y - halfWidth); // Back to top left
+        path.moveTo(x - halfWidth, y - halfHeight); // Top left
+        path.lineTo(x + halfWidth, y - halfHeight); // Top right
+        path.lineTo(x, y + halfHeight); // Bottom Center
+        path.lineTo(x - halfWidth, y - halfHeight); // Back to top left
         path.close();
 
         canvas.drawPath(path, paint);
@@ -602,6 +624,12 @@ public class SpinningWheelView extends View implements WheelRotation.RotationLis
 
     private boolean hasData() {
         return items != null && !items.isEmpty();
+    }
+
+    private int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return px;
     }
 
     // endregion

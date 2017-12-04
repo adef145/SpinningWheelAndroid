@@ -19,6 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        app:wheel_arrow_width="20dp"
+        app:wheel_arrow_height="35dp"
         app:wheel_arrow_color="@android:color/black"
         app:wheel_colors="@array/rainbow_dash"
         app:wheel_items="@array/dummy"

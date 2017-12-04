@@ -8,5 +8,7 @@
         <attr name="wheel_text_size" format="dimension"/>
         <attr name="wheel_text_color" format="color"/>
         <attr name="wheel_arrow_color" format="color"/>
+        <attr name="wheel_arrow_width" format="dimension"/>
+        <attr name="wheel_arrow_height" format="dimension"/>
     </declare-styleable>
 </resources>
